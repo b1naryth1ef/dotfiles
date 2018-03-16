@@ -1,0 +1,33 @@
+ServerAliveInterval 60
+
+Host *
+  ForwardAgent yes
+  ServerAliveInterval 120
+
+{% for host in pillar.ssh.hosts %}
+Host {{ host['name'] }}
+  Hostname {{ host.get('host', host['name']) }}
+{% if 'port' in host %}  Port {{ host['port'] }}{% endif %}
+{% if 'user' in host %}  User {{ host['user'] }}{% endif %}
+{% endfor %}
+
+{% for name in pillar.ssh.bastions %}
+{% set bastion = pillar.ssh.bastions[name] %}
+Host {{ name }}
+  Hostname {{ bastion['host'] }}
+  Port {{ bastion['port'] }}
+  ControlMaster auto
+  ControlPath /tmp/ssh-control-%r@%h:%p
+  ControlPersist 10d
+
+{% for alias in bastion['aliases'] %}
+Host {{ alias }}
+  Hostname {{ bastion['aliases'][alias] }}
+  User {{ bastion['user'] }}
+  ProxyCommand ssh -W %h:%p {{ name }}
+{% endfor %}
+
+Host {{ bastion['match'] }}
+  User {{ bastion['user'] }}
+  ProxyCommand ssh -W %h:%p {{ name }}
+{% endfor %}

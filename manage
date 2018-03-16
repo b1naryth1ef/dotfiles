@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function try_install_salt {
+  read -p "I can try to install salt for you, sound good? (Y/n) " choice
+
+  case "$choice" in
+    y|Y ) ;;
+    *) exit 1 ;;
+  esac
+
+  wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+  echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main" > /etc/apt/sources.list.d/saltstack.list
+  sudo apt-get update
+  sudo apt-get install salt-common
+}
+
+function main {
+  if hash salt-client 2>/dev/null; then
+    echo "To run this you need to install salt minion."
+    try_install_salt
+  fi
+
+  local cmd=$1
+  if [ "$cmd" == "noop" ]; then
+    echo "Running noop..."
+    sudo salt-call --local --file-root=root --pillar-root=pillar --pillar-root=../dotfile-secrets/ state.highstate test=True
+  elif [ "$cmd" == "apply" ]; then
+    echo "Running apply..."
+    sudo salt-call --local --file-root=root --pillar-root=pillar --pillar-root=../dotfile-secrets/ state.highstate
+  else
+    echo "Commands: [noop|apply]"
+  fi
+}
+
+main $@
