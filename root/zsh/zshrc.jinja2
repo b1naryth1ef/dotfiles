@@ -1,0 +1,100 @@
+export GOPATH=~/code/go/path
+export PATH=/usr/local/bin:$PATH:~/bin:~/code/go/path/bin:/usr/local/go/bin:~/.cargo/bin:
+
+# Make sure shit is setup correctly
+export TERM=xterm
+
+# This is required for GPG agent to work
+export GPG_TTY=$(tty)
+
+# vi
+alias vi=vim
+export EDITOR="vim"
+
+# Useful aliases
+alias dc="docker-compose"
+alias erc="$EDITOR ~/.zshrc; rrc"
+alias rrc="source ~/.zshrc"
+alias uuid='python -c "import uuid; print str(uuid.uuid4())"'
+alias uuid-clean='python -c "import uuid; print str(uuid.uuid4()).replace(\"-\", \"\")"'
+alias tar.in="tar -zcvf"
+alias tar.out="tar -zxvf"
+alias ripit="wget --recursive -page-requisites --convert-links --no-parent"
+
+export PYTHONDONTWRITEBYTECODE=1
+WORKON_HOME=~/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+export VULKAN_SDK=~/code/c/vulkansdk/x86_64
+export PATH=$VULKAN_SDK/bin:$PATH
+export LD_LIBRARY_PATH=$VULKAN_SDK/lib:$LD_LIBRARY_PATH
+export VK_LAYER_PATH=$VULKAN_SDK/etc/explicit_layer.d
+
+if [ -d /etc/profile.d ]; then
+  for i in /etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      . $i
+    fi
+  done
+  unset i
+fi
+
+bindkey -v
+export KEYTIMEOUT=1
+MODE_INDICATOR="%{$fg_bold[red]%}[%{$fg[red]%}COMMAND%{$fg_bold[red]%}]%{$reset_color%}"
+bindkey '^R' history-incremental-search-backward
+
+ZSH_THEME="andrei"
+COMPLETION_WAITING_DOTS="true"
+
+plugins=(vi-mode ssh-agent command-not-found fasd)
+
+# Source oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+g.up () {
+    git pull origin $(git rev-parse --abbrev-ref HEAD)
+}
+
+g.tfo () {
+    git push origin $(git rev-parse --abbrev-ref HEAD)
+}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/bin/tmux.sh ] && source ~/bin/tmux.sh
+[ -f /home/andrei/.travis/travis.sh ] && source /home/andrei/.travis/travis.sh
+
+if [ -f '/home/andrei/google-cloud-sdk/path.zsh.inc' ]; then source '/home/andrei/google-cloud-sdk/path.zsh.inc'; fi
+
+if [ -f '/home/andrei/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/andrei/google-cloud-sdk/completion.zsh.inc'; fi
+
+{% for psql in pillar.psql %}
+{% set info = pillar.psql[psql] %}
+function {{ psql }} {
+  psql --host {{ info['host'] }} --user {{ info['user'] }} --dbname {{ info['dbname'] }}
+}
+{% endfor %}
+
+function vsh {
+  local server="$1.discord.gg"
+  ssh-keygen -F $server >/dev/null
+  local ret=$?
+
+  if [ $ret -eq 1 ]; then
+    ssh-keyscan -H $server >> ~/.ssh/known_hosts
+  fi
+  ssh $server
+}
+
+function awhois {
+  local ip="$1"
+  local hostname="v4.whois.cymru.com"
+  whois -h $hostname " -c -p $ip"
+}
+
+{% for name, project in pillar.gcloud.items() %}
+function {{ name }} {
+  gcloud --project {{ project }} $@
+}
+{% endfor %}

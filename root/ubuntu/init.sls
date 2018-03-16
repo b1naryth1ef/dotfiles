@@ -1,16 +1,17 @@
 include:
   - ssh
+  - zsh
 
 packages:
   pkg.installed:
     - pkgs:
       - vim
-      - zsh
       - cmake
       - curl
       - wget
       - gnupg
       - gnupg-agent
+      - python-pip
 
 google-chrome-stable:
   pkgrepo.managed:
@@ -21,3 +22,10 @@ google-chrome-stable:
       - pkg: google-chrome-stable
 
   pkg.latest: []
+
+# andrei:
+#   user.present:
+#     - shell: /bin/zsh
+#     - require:
+#       - pkg: zsh
+
