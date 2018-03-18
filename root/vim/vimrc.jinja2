@@ -1,0 +1,202 @@
+set nocompatible
+
+"NeoBundle!
+set rtp+=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Plugins and Things
+{% for plugin in pillar['vim']['plugins'] -%}
+NeoBundle '{{ plugin }}'
+{% endfor %}
+
+call neobundle#end()
+filetype plugin indent on
+NeoBundleCheck
+
+" Ayyyyy
+let mapleader = "\<Space>"
+let maplocalleader = "\<Space>"
+
+" Suppress the intro message
+set shortmess+=I
+
+" All this just to handle the space on the left. Maybe some redundant?
+filetype indent on
+syntax on
+set autoindent
+set hlsearch
+set number
+set showmatch
+set incsearch
+set background=dark
+set hidden
+set backspace=indent,eol,start
+set textwidth=0 nosmartindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab smarttab
+set ruler
+set wrap
+set dir=/tmp//
+set scrolloff=5
+set ignorecase
+set smartcase
+set wildignore+=*.pyc,*.o,*.class,*.lo,.git,vendor/*,node_modules/**,bower_components/**
+set tags+=gems.tags
+
+" maximum number of changes that can be undone
+set undolevels=5000
+
+" seriously fuck vim folding
+set nofoldenable
+
+" use tab to omni complete stuff
+let b:vcm_tab_complete = 'omni'
+
+" Ctrl-C triggers Escape
+" inoremap <Esc> <nop>
+inoremap <C-c> <Esc>
+nnoremap <C-c> <nop>
+
+" Highlight search
+set hlsearch
+
+" FZF stuff
+let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+inoremap <c-p> <c-o>:FZF<CR>
+nnoremap <c-p> <c-o>:FZF<CR>
+
+" Clear a search with <space>
+nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
+
+" Switch back and forth between buffers in normal mode
+nnoremap <silent> <tab> :bnext<CR>
+nnoremap <silent> <s-tab> :bprevious<CR>
+
+syntax on
+
+" FileType indentation settings
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType vhdl setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType verilog setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType cs setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
+" Autoremove trailing spaces when saving the buffer
+autocmd FileType c,cpp,eruby,html,java,javascript,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+" Display bad whitespace
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" No vim, don't automatically continue my comments. That's annoying.
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" And please ignore mode suggestions.
+set modelines=0
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+" Go
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+" Line number gutter
+highlight LineNr ctermbg=232
+highlight LineNr ctermfg=250
+
+" ========= Plugin Options ========
+let g:AckAllFiles = 0
+let g:AckCmd = 'ack --type-add ruby=.feature --ignore-dir=tmp 2> /dev/null'
+
+let html_use_css=1
+let html_number_lines=0
+let html_no_pre=1
+
+let g:gist_clip_command = 'pbcopy'
+let g:gist_detect_filetype = 1
+
+let g:no_html_toolbar = 'yes'
+
+" Nerd tree bullshit
+let NERDTreeIgnore=['\.pyc', '\.o', '\.class', '\.lo']
+let NERDTreeHijackNetrw = 0
+let NERDTreeShowHidden=1
+
+" Disable GUI scrollbars
+set guioptions-=r
+set guioptions-=L
+
+let g:netrw_banner = 0
+
+let g:VimuxUseNearestPane = 1
+
+" ========= Shortcuts ========
+
+" NERDTree
+map <silent> <LocalLeader>nt :NERDTreeToggle<CR>
+map <silent> <LocalLeader>nr :NERDTree<CR>
+map <silent> <LocalLeader>nf :NERDTreeFind<CR>
+
+" Ack
+map <LocalLeader>aw :Ack '<C-R><C-W>'
+
+" TComment
+map <silent> <LocalLeader>cc :TComment<CR>
+map <silent> <LocalLeader>uc :TComment<CR>
+
+" Make stuff
+:map <Leader>j :make<CR>
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+map <silent> <LocalLeader>rt :!ctags -R --exclude=".git\|.svn\|log\|tmp\|db\|pkg" --extra=+f --langmap=Lisp:+.clj<CR>
+map <silent> <LocalLeader>cj :!clj %<CR>
+
+map <silent> <LocalLeader>gd :e product_diff.diff<CR>:%!git diff<CR>:setlocal buftype=nowrite<CR>
+map <silent> <LocalLeader>pd :e product_diff.diff<CR>:%!svn diff<CR>:setlocal buftype=nowrite<CR>
+
+map <silent> <LocalLeader>nh :nohls<CR>
+map <silent> <LocalLeader>bd :bufdo :bd<CR>
+
+cnoremap <Tab> <C-L><C-D>
+
+nnoremap <silent> k gk
+nnoremap <silent> j gj
+nnoremap <silent> Y y$
+
+map <silent> <LocalLeader>ws :highlight clear ExtraWhitespace<CR>
+
+function! Trim()
+  %s/\s*$//
+endfunction
+command! -nargs=0 Trim :call Trim()
+nnoremap <silent> <Leader>cw :Trim<CR>
+
+" Flake8 stuff
+autocmd FileType python map <buffer> <LocalLeader>b :call Flake8()<CR>
+autocmd BufWritePost *.py call Flake8()
+
+" ========= Functions ========
+
+command! SudoW w !sudo tee %
+
+function! GitGrepWord()
+  cgetexpr system("git grep -n '" . expand("<cword>") . "'")
+  cwin
+  echo 'Number of matches: ' . len(getqflist())
+endfunction
+command! -nargs=0 GitGrepWord :call GitGrepWord()
+nnoremap <silent> <Leader>gw :GitGrepWord<CR>
+
+let python_highlight_all=1
+set mouse-=a

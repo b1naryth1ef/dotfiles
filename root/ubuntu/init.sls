@@ -1,6 +1,8 @@
 include:
   - ssh
   - zsh
+  - vim
+  - ubuntu.sudoers
 
 packages:
   pkg.installed:
