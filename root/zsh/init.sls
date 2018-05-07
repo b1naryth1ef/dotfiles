@@ -12,11 +12,13 @@ oh-my-zsh:
   file.managed:
     - name: /home/andrei/.oh-my-zsh/themes/andrei.zsh-theme
     - source: salt://zsh/andrei.zsh-theme
+    - user: andrei
 
 /home/andrei/.zshrc:
   file.managed:
     - source: salt://zsh/zshrc.jinja2
     - template: jinja
+    - user: andrei
 
 pip:
   pip.installed:

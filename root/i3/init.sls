@@ -6,6 +6,19 @@
   file.managed:
     - source: salt://i3/config.jinja2
     - template: jinja
+    - user: andrei
+
+/home/andrei/.i3/i3status.conf:
+  file.managed:
+    - source: salt://i3/i3status.jinja2
+    - template: jinja
+    - user: andrei
+
+/home/andrei/.i3/dunst.cfg:
+  file.managed:
+    - source: salt://i3/dunst.jinja2
+    - template: jinja
+    - user: andrei
 
 /home/andrei/.config/terminator:
   file.directory:
@@ -15,6 +28,7 @@
   file.managed:
     - source: salt://i3/terminator.jinja2
     - template: jinja
+    - user: andrei
 
 i3status:
   pkg.installed: []

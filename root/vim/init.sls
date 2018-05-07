@@ -17,3 +17,4 @@ neobundle:
   file.managed:
     - source: salt://vim/vimrc.jinja2
     - template: jinja
+    - user: andrei
