@@ -4,17 +4,13 @@ set $mod Mod4
 # Font
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
-# Gaps
-gaps inner 4
-gaps outer 4
-
 # Fuck mice
 focus_follows_mouse no
 workspace_auto_back_and_forth no
 floating_modifier $mod
 
 # Important commands
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec konsole
 bindsym $mod+q kill
 bindsym $mod+bar exec rofi -m -2 -show window
 bindsym $mod+f exec rofi -m -2 -show run
