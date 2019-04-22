@@ -2,8 +2,8 @@ include:
   - ssh
   - zsh
   - vim
+  - enpass
   - ubuntu.sudoers
-  - ubuntu.enpass
   - ubuntu.chrome
 
 packages:

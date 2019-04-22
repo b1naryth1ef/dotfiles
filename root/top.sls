@@ -1,16 +1,15 @@
 base:
+  '*':
+    - scripts
+    - alacritty
   'os:Ubuntu':
     - match: grain
     - ubuntu
-    - scripts
-  'osrelease:17.04':
+  'os:Debian':
     - match: grain
-    - ubuntu.releases.zesty
-  'ope':
-    - i3
+    - debian
   'oaf':
     - i3
   'zaz*':
     - sway
     - i3status
-    - alacritty

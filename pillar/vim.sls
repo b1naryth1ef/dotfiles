@@ -1,18 +1,15 @@
 vim:
   plugins:
-    - tpope/vim-fugitive
-    - scrooloose/nerdtree
-    - bling/vim-airline
-    - widox/vim-buffer-explorer-plugin
-    - tomtom/tcomment_vim
-    - fatih/vim-go
-    - bitc/vim-bad-whitespace
-    - nvie/vim-flake8
-    - ajh17/VimCompletesMe
-    - rizzatti/dash.vim
-    - idanarye/vim-dutyl
-    - elixir-lang/vim-elixir
-    - airblade/vim-gitgutter
-    - junegunn/fzf
-    - rust-lang/rust.vim
-    - isRuslan/vim-es6
+    - name: tpope/vim-fugitive
+    - name: scrooloose/nerdtree
+    - name: widox/vim-buffer-explorer-plugin
+    - name: tomtom/tcomment_vim
+    - name: fatih/vim-go
+    - name: bitc/vim-bad-whitespace
+    - name: nvie/vim-flake8
+    - name: elixir-lang/vim-elixir
+    - name: airblade/vim-gitgutter
+    - name: rust-lang/rust.vim
+    - name: isRuslan/vim-es6
+    - name: hashivim/vim-terraform
+    - {name: junegunn/fzf, config: {dir: '~/.fzf', do: './install --all'}}

@@ -6,7 +6,7 @@
 
 /home/andrei/.config/sway/background.png:
   file.managed:
-     - source: salt://sway/background.png
+     - source: salt://background.png
      - user: andrei
 
 # TODO:

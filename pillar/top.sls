@@ -1,6 +1,6 @@
 base:
   '*':
     - vim
-    - secrets.gcloud
-    - secrets.psql
+    - i3
     - secrets.ssh
+    - hosts/{{ grains.host }}

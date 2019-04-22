@@ -10,6 +10,6 @@ enpass:
 
 /usr/local/bin/enpass:
   file.symlink:
-    - target: /opt/Enpass/bin/runenpass.sh
+    - target: /opt/enpass/Enpass
     - require:
       - pkg: enpass

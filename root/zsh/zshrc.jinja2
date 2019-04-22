@@ -22,8 +22,11 @@ alias tar.out="tar -zxvf"
 alias ripit="wget --recursive -page-requisites --convert-links --no-parent"
 
 export PYTHONDONTWRITEBYTECODE=1
-WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+
+v.on () {
+  export WORKON_HOME=~/.virtualenvs
+  source /usr/local/bin/virtualenvwrapper.sh
+}
 
 export VULKAN_SDK=~/code/c/vulkansdk/x86_64
 export PATH=$VULKAN_SDK/bin:$PATH
@@ -69,32 +72,8 @@ if [ -f '/home/andrei/google-cloud-sdk/path.zsh.inc' ]; then source '/home/andre
 
 if [ -f '/home/andrei/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/andrei/google-cloud-sdk/completion.zsh.inc'; fi
 
-{% for psql in pillar.psql %}
-{% set info = pillar.psql[psql] %}
-function {{ psql }} {
-  psql --host {{ info['host'] }} --user {{ info['user'] }} --dbname {{ info['dbname'] }}
-}
-{% endfor %}
-
-function vsh {
-  local server="$1.discord.gg"
-  ssh-keygen -F $server >/dev/null
-  local ret=$?
-
-  if [ $ret -eq 1 ]; then
-    ssh-keyscan -H $server >> ~/.ssh/known_hosts
-  fi
-  ssh $server
-}
-
 function awhois {
   local ip="$1"
   local hostname="v4.whois.cymru.com"
   whois -h $hostname " -c -p $ip"
 }
-
-{% for name, project in pillar.gcloud.items() %}
-function {{ name }} {
-  gcloud --project {{ project }} $@
-}
-{% endfor %}

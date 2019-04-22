@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set +x
+
 function try_install_salt {
   read -p "I can try to install salt for you, sound good? (Y/n) " choice
 

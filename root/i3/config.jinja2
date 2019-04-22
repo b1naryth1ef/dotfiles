@@ -10,9 +10,9 @@ workspace_auto_back_and_forth no
 floating_modifier $mod
 
 # Important commands
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec {{ pillar['i3']['terminal'] }}
 bindsym $mod+q kill
-bindsym $mod+bar exec rofi -m -2 -show window
+bindsym $mod+bar exec enpass showassistant
 bindsym $mod+f exec rofi -m -2 -show run
 bindsym $mod+d exec rofi -m -2 -show ssh -ssh-command {terminal} -e zsh -c {ssh-client} {host}
 bindsym $mod+Shift+e exec i3-msg exit
@@ -75,7 +75,7 @@ bindsym $mod+p exec ~/bin/screenshot
 bindsym $mod+Shift+space floating toggle
 
 # switch to workspace
-bindsym $mod+1 workspace 1
+bindsym $mod+1 workspace 1:🌐
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
@@ -85,18 +85,22 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
+bindsym $mod+minus workspace 11:🔐
+bindsym $mod+equal workspace 12:🎶
 
 # move focused container to workspace
-bindsym $mod+Shift+exclam move container to workspace 1
-bindsym $mod+Shift+at move container to workspace 2
-bindsym $mod+Shift+numbersign move container to workspace 3
-bindsym $mod+Shift+dollar move container to workspace 4
-bindsym $mod+Shift+percent move container to workspace 5
-bindsym $mod+Shift+asciicircum move container to workspace 6
-bindsym $mod+Shift+ampersand move container to workspace 7
-bindsym $mod+Shift+asterisk move container to workspace 8
-bindsym $mod+Shift+parenleft move container to workspace 9
-bindsym $mod+Shift+parenright move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace 1:🌐
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+minus move container to workspace 11:🔐
+bindsym $mod+Shift+equal move container to workspace 12:🎶
 
 # Because mac
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 1"
@@ -111,8 +115,9 @@ bindsym $mod+Shift+r restart
 bar {
         strip_workspace_numbers yes
         position bottom
-        status_command i3status --config ~/.i3/i3status.conf
+        status_command i3status
         font pango:monaco, Icons 9
+        tray_output primary
 }
 
 # Resize mode
@@ -144,10 +149,10 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # BG (desktop) images
-exec --no-startup-id feh --bg-scale ~/.i3/background.png
+exec --no-startup-id feh --bg-scale ~/.config/i3/background.png
 
 # Dunst (notifications)
-exec --no-startup-id dunst -config ~/.i3/dunst.cfg
+exec --no-startup-id dunst -config ~/.config/dunst/dunst.cfg
 
 # Calls startup script (which may or may not exist)
 exec ~/bin/startup.sh

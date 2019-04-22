@@ -11,6 +11,7 @@ Host {{ host['name'] }}
 {% if 'user' in host %}  User {{ host['user'] }}{% endif %}
 {% endfor %}
 
+{% if 'bastions' in pillar.ssh %}
 {% for name in pillar.ssh.bastions %}
 {% set bastion = pillar.ssh.bastions[name] %}
 Host {{ name }}
@@ -31,3 +32,4 @@ Host {{ bastion['match'] }}
   User {{ bastion['user'] }}
   ProxyCommand ssh -W %h:%p {{ name }}
 {% endfor %}
+{% endif %}
