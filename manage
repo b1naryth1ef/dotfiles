@@ -16,7 +16,9 @@ function try_install_salt {
 }
 
 function main {
-  if $(hash salt-client 2>/dev/null); then
+  which salt-call 2>/dev/null
+  exit_code=$?
+  if [ ${exit_code} -ne 0 ]; then
     echo "To run this you need to install salt minion."
     try_install_salt
   fi

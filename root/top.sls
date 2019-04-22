@@ -10,3 +10,7 @@ base:
     - i3
   'oaf':
     - i3
+  'zaz*':
+    - sway
+    - i3status
+    - alacritty
