@@ -1,6 +1,5 @@
 base:
   '*':
-    - vim
-    - i3
     - secrets.ssh
+    - hosts/default
     - hosts/{{ grains.host }}

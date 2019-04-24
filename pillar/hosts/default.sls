@@ -1,3 +1,6 @@
+i3:
+  terminal: alacritty
+
 vim:
   plugins:
     - name: tpope/vim-fugitive

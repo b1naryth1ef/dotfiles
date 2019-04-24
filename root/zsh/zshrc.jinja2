@@ -1,3 +1,11 @@
+{% set init = salt['pillar.get']('zsh:init', none) -%}
+
+{% if init -%}
+if [ "$(tty)" = "/dev/tty1" ]; then
+	exec {{ init }}
+fi
+{%- endif %}
+
 export GOPATH=~/code/go/path
 export PATH=/usr/local/bin:$PATH:~/bin:~/code/go/path/bin:/usr/local/go/bin:~/.cargo/bin:
 
