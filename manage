@@ -28,10 +28,13 @@ function main {
   local cmd=$1
   if [ "$cmd" == "noop" ]; then
     echo "Running noop..."
-    sudo salt-call --local --file-root=root --pillar-root=pillar  state.highstate test=True
+    sudo salt-call --local --file-root=root --pillar-root=pillar state.highstate test=True
+  elif [ "$cmd" == "noop-one" ]; then
+    echo "Running noop on $2..."
+    sudo salt-call --local --file-root=root --pillar-root=pillar state.sls test=True $2
   elif [ "$cmd" == "apply" ]; then
     echo "Running apply..."
-    sudo salt-call --local --file-root=root --pillar-root=pillar  state.highstate
+    sudo salt-call --local --file-root=root --pillar-root=pillar state.highstate
   elif [ "$cmd" == "setup" ]; then
     echo "Running setup..."
     try_install_salt
