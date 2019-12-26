@@ -2,9 +2,11 @@ include:
   - ssh
   - zsh
   - vim
-  - enpass
   - ubuntu.sudoers
+  {%- if salt['pillar.get']('wm', none) %}
+  - enpass
   - ubuntu.chrome
+  {% endif %}
 
 packages:
   pkg.installed:

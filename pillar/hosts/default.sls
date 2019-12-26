@@ -1,6 +1,4 @@
-terminal: alacritty
-
-wm: none
+wm: null
 
 vim:
   plugins:

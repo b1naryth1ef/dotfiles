@@ -1,4 +1,5 @@
 wm: sway
+terminal: alacritty
 
 zsh:
   init: sway
