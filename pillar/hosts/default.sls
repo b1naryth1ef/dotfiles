@@ -1,5 +1,6 @@
-i3:
-  terminal: alacritty
+terminal: alacritty
+
+wm: none
 
 vim:
   plugins:

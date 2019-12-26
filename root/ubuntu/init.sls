@@ -14,7 +14,7 @@ packages:
       - curl
       - wget
       - gnupg
-      - gnupg-agent
+      - gpg-agent
       - python-pip
 
 # andrei:

@@ -3,10 +3,19 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term alacritty
+set $term {{ pillar['terminal'] }}
 set $menu rofi -show run | xargs swaymsg exec
 
+default_border pixel
 output * bg /home/andrei/.config/sway/background.png fill
+
+{% for output in pillar['sway']['outputs'] -%}
+output {{ output["name"] }} scale {{ output["scale"] }}
+{%- if output.get('toggle-lid', none) %}
+bindswitch --reload lid:on output {{ output["name"] }} disable
+bindswitch --reload lid:off output {{ output["name"] }} enable
+{% endif -%}
+{% endfor %}
 
 # Automatic lockscreen
 exec swayidle -w \
@@ -18,11 +27,20 @@ exec swayidle -w \
 # Notification Daemon
 exec mako --default-timeout 7000
 
+# Waybar
+exec waybar
+
 bindsym $mod+Return exec $term
 bindsym $mod+q kill
 bindsym $mod+f exec $menu
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+bindsym XF86MonBrightnessUp exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -10%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +10%
+bindsym XF86AudioMute exec pactl pactl set-sink-mute 0 toggle
 
 floating_modifier $mod normal
 
@@ -96,24 +114,15 @@ bindsym $mod+r mode "resize"
 
 bindsym $mod+p exec slurp | grim -g - - | wl-copy
 
-bar {
-    position bottom
-
-    status_command i3status
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #323232 #323232 #5c5c5c
-    }
+{% for input in pillar['sway']['inputs'] %}
+input {{ input['name'] }} {
+{%- for opt, value in input.get("options", {}).items() %}
+  {{ opt }} {{ value }}
+{%- endfor %}
 }
+{% endfor %}
 
-{% if grains.host == 'zaz' %}
-input 1:1:AT_Translated_Set_2_keyboard {
-	xkb_options ctrl:nocaps,altwin:swap_alt_win
-}
-{% endif %}
-
-new_window pixel
+client.focused #878787 #878787 #878787 #878787 #878787
+client.unfocused #545454 #545454 #545454 #545454 #545454
 
 include /usr/local/etc/sway/config.d/*
