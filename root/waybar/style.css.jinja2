@@ -1,0 +1,136 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Monaco, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #dfdfdf;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: #222222;
+  color: #dfdfdf;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+window#waybar.termite {
+  background-color: #3f3f3f;
+}
+
+window#waybar.chromium {
+  background-color: #000000;
+  border: none;
+}
+
+#workspaces button {
+  padding: 0 7px;
+  background-color: transparent;
+  border-bottom: 3px solid transparent;
+}
+
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: inherit;
+  border-bottom: 3px solid #1793d1;
+}
+
+#workspaces button.focused {
+  background-color: #444;
+  border-bottom: 3px solid #1793d1;
+}
+
+#workspaces button.urgent {
+  background-color: #eb4d4b;
+  border-bottom: 3px solid #eb4d4b;
+}
+
+#mode {
+  background-color: #64727d;
+  border-bottom: 3px solid #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#pulseaudio,
+#tray,
+#mode {
+  padding: 0 5px;
+  margin: 0 4px;
+  color: #dfdfdf;
+}
+
+
+#tray {
+  border-bottom: 3px solid white;
+}
+
+#custom-media {
+  border-bottom: 3px solid #67fb9a;
+}
+
+#pulseaudio {
+  border-bottom: 3px solid #9a67fb;
+}
+
+#temperature {
+  border-bottom: 3px solid #127675;
+}
+
+#battery {
+  border-bottom: 3px solid #5DB5A4;
+}
+
+#battery.charging {
+  border-bottom: 3px solid #F5CEA4;
+}
+
+#network {
+  border-bottom: 3px solid #F5CEA4;
+}
+
+#memory {
+  border-bottom: 3px solid #FB9A67;
+}
+
+#backlight {
+  border-bottom: 3px solid #ED5377;
+}
+
+@keyframes blink {
+  to {
+    color: #de0037;
+  }
+}
+
+#battery.critical:not(.charging) {
+  color: #dfdfdf;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+label:focus {
+  background-color: #000000;
+}
+
+#pulseaudio.muted {
+  background: rgba(255, 0, 0, 0.3);
+}
+
+#temperature.critical {
+  color: red;
+}

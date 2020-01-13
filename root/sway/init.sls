@@ -1,3 +1,6 @@
+include:
+  - waybar
+
 /home/andrei/.config/sway/config:
   file.managed:
     - source: salt://sway/config.jinja2
