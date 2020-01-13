@@ -4,6 +4,7 @@ include:
   - vim
   - ubuntu.sudoers
   {%- if salt['pillar.get']('wm', none) %}
+  - discord
   - enpass
   - ubuntu.chrome
   {% endif %}
