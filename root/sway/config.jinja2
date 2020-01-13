@@ -24,6 +24,9 @@ exec swayidle -w \
     resume 'swaymsg "output * dpms on"' \
   before-sleep 'swaylock --image ~/.config/sway/background.png'
 
+bindsym $mod+Shift+Escape exec systemctl suspend && swaylock --image ~/.config/sway/background.png
+bindsym $mod+Shift+grave exec swaylock --image ~/.config/sway/background.png
+
 # Notification Daemon
 exec mako --default-timeout 7000
 
